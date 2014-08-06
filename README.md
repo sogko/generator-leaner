@@ -3,7 +3,7 @@
 
 [Yeoman](http://yeoman.io) generator for LEANR stack.
 
-LEANR is a **L**ightweight & **L**eaner **E**xpressJS-**A**ngularJS-**N**odeJS-**R**equireJS stack, full of asynchronous module definitions (AMD) goodness
+LEANR is a **L** ightweight & **L** eaner **E** xpressJS-**A** ngularJS-**N** odeJS-**R** equireJS stack, full of asynchronous module definitions (AMD) goodness
 
 ## Getting Started
 

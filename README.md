@@ -3,7 +3,11 @@
 
 [Yeoman](http://yeoman.io) generator for LEANR stack.
 
-LEANR is a **L** ightweight & **L** eaner **E** xpressJS-**A** ngularJS-**N** odeJS-**R** equireJS stack, full of asynchronous module definitions (AMD) goodness
+LEANR is a <strong>L</strong>ightweight (and <strong>L</strong>eaner!) full web application stack, filled with the following goodness :
+* <strong>E</strong>xpressJS for your server-side dishes
+* <strong>A</strong>ngularJS for your client rich interactions
+* <strong>N</strong>odeJS, of course!
+* <strong>R</strong>equireJS for all of that delicious asynchronous module definitions (AMD) cake!
 
 ## Getting Started
 

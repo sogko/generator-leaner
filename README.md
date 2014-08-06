@@ -1,4 +1,5 @@
-# generator-leanr [![Build Status](https://secure.travis-ci.org/sogko/generator-leanr.png?branch=master)](https://travis-ci.org/sogko/generator-leanr)
+# generator-leanr 
+<!---[![Build Status](https://secure.travis-ci.org/sogko/generator-leanr.png?branch=master)](https://travis-ci.org/sogko/generator-leanr)--->
 
 [Yeoman](http://yeoman.io) generator for LEANR stack.
 

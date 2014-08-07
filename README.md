@@ -1,9 +1,9 @@
-# generator-leanr 
-<!---[![Build Status](https://secure.travis-ci.org/sogko/generator-leanr.png?branch=master)](https://travis-ci.org/sogko/generator-leanr)--->
+# generator-leaner 
+<!---[![Build Status](https://secure.travis-ci.org/sogko/generator-leaner.png?branch=master)](https://travis-ci.org/sogko/generator-leaner)--->
 
-[Yeoman](http://yeoman.io) generator for LEANR stack.
+[Yeoman](http://yeoman.io) generator for LEANER stack.
 
-LEANR is a <strong>L</strong>ightweight (and <strong>L</strong>eaner!) full web application stack, filled with the following goodness :
+LEANER is a <strong>L</strong>ightweight (and <strong>L</strong>eaner!) full web application stack, filled with the following goodness :
 * <strong>E</strong>xpressJS for your server-side dishes
 * <strong>A</strong>ngularJS for your client rich interactions
 * <strong>N</strong>odeJS, of course!
@@ -29,16 +29,16 @@ $ npm install -g yo
 
 Yeoman travels light. He didn't pack any generators when he moved in. You can think of a generator like a plug-in. You get to choose what type of application you wish to create, such as a Backbone application or even a Chrome extension.
 
-To install generator-leanr from npm, run:
+To install generator-leaner from npm, run:
 
 ```bash
-$ npm install -g generator-leanr
+$ npm install -g generator-leaner
 ```
 
 Finally, initiate the generator:
 
 ```bash
-$ yo leanr
+$ yo leaner
 ```
 
 ### Getting To Know Yeoman

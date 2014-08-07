@@ -1,5 +1,6 @@
 'use strict';
 var util = require('util');
+var path = require('path');
 var async = require('async');
 var yeoman = require('yeoman-generator');
 
@@ -39,18 +40,8 @@ var LeanerGenerator = module.exports = function LeanerGenerator(args, options) {
     default: false
   });
 
-  // install dependencies after completed generating project scaffold
   this.on('end', function () {
-    var endMessage = function endMessage() {
-      this.log(Messages(this).app.completed());
-    }.bind(this);
-    if (!this.options['skip-install']) {
-      this.installDependencies({
-        callback: endMessage
-      });
-    } else {
-      endMessage();
-    }
+
   });
 };
 
@@ -77,6 +68,21 @@ LeanerGenerator.prototype.generateProjectScaffold = function generateProjectScaf
     function generateClientComponents(next) {
       this.log(Messages(this).app.generateClientComponents());
       Utils(this).copyTemplateDirectory('client', Paths.dest.client.root);
+      next();
+    }.bind(this),
+    function installDependencies(next) {
+      if (!this.options['skip-install']) {
+        this.log(Messages(this).app.installDependencies());
+        this.installDependencies({
+          callback: function() { next(); }
+        });
+      } else {
+        this.log(Messages(this).app.skippedInstallDependencies());
+        next();
+      }
+    }.bind(this),
+    function completed(next) {
+      this.log(Messages(this).app.completed());
       next();
     }.bind(this)
   ], function () {

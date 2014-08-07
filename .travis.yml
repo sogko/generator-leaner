@@ -3,5 +3,5 @@ node_js:
   - '0.10'
 before_install:
   - currentfolder=${PWD##*/}
-  - if [ "$currentfolder" != 'generator-leanr' ]; then cd .. && eval "mv $currentfolder generator-leanr" && cd generator-leanr; fi
+  - if [ "$currentfolder" != 'generator-leaner' ]; then cd .. && eval "mv $currentfolder generator-leaner" && cd generator-leaner; fi
 

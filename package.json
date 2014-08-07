@@ -1,10 +1,10 @@
 {
-  "name": "generator-leanr",
+  "name": "generator-leaner",
   "version": "0.0.0",
   "description": "Yeoman generator",
   "license": "MIT",
   "main": "app/index.js",
-  "repository": "sogko/generator-leanr",
+  "repository": "sogko/generator-leaner",
   "author": {
     "name": "Hafiz Ismail",
     "email": "",

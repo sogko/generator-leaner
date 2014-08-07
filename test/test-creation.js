@@ -3,14 +3,14 @@
 var path = require('path');
 var helpers = require('yeoman-generator').test;
 
-describe('leanr generator', function () {
+describe('leaner generator', function () {
   beforeEach(function (done) {
     helpers.testDirectory(path.join(__dirname, 'temp'), function (err) {
       if (err) {
         return done(err);
       }
 
-      this.app = helpers.createGenerator('leanr:app', [
+      this.app = helpers.createGenerator('leaner:app', [
         '../../app'
       ]);
       done();

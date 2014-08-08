@@ -1,89 +1,100 @@
 'use strict';
 var util = require('util');
+var _ = require('lodash');
 var path = require('path');
 var async = require('async');
 var yeoman = require('yeoman-generator');
 
 
-var MessagesMixin = require('../lib/mixins/messages');
-var Utils = require('../lib/generator-utils');
-var Paths = require('../lib/generator-paths');
+var MessagesMixins = require('../lib/mixins/messages');
+var ActionsMixins = require('../lib/mixins/actions');
+var PathsMixins = require('../lib/mixins/paths');
 
-var LeanerGenerator = module.exports = function LeanerGenerator(args, options) {
-  yeoman.generators.Base.apply(this, arguments);
+var LeanerGeneratorBase = yeoman.generators.Base.extend({});
 
-  // load generator package.json
-  this.pkg = require('../package.json');
+// mix-ins
+_.extend(LeanerGeneratorBase.prototype, PathsMixins);
+_.extend(LeanerGeneratorBase.prototype, ActionsMixins);
+_.extend(LeanerGeneratorBase.prototype, MessagesMixins);
 
-  this.argument('projectName', {
-    desc: 'LEANER project name',
-    defaults:  path.basename(process.cwd()),
-    type: String,
-    required: false
-  });
-  this.projectName = Paths(this).currentProjectName();
+var LeanerGenerator = module.exports = LeanerGeneratorBase.extend({
 
-  // define options
-  this.option('skip-install', {
-    desc: 'Skip installing NPM and Bower dependencies',
-    type: Boolean,
-    default: false
-  });
+  constructor: function () {
+    LeanerGeneratorBase.apply(this, arguments);
 
-  this.option('skip-welcome-message', {
-    desc: 'Skip welcome message',
-    type: Boolean,
-    default: false
-  });
+    // init projectName
+    this.argument('projectName', {
+      desc: 'LEANER project name',
+      defaults:  path.basename(process.cwd()),
+      type: String,
+      required: false
+    });
+    this.projectName = this.currentProjectName();
+    console.log('this.projectName',this.projectName);
 
-  this.on('end', function () {
+    // define options
+    this.option('skip-install', {
+      desc: 'Skip installing NPM and Bower dependencies',
+      type: Boolean,
+      default: false
+    });
 
-  });
-};
+    this.option('skip-welcome-message', {
+      desc: 'Skip welcome message',
+      type: Boolean,
+      default: false
+    });
 
-util.inherits(LeanerGenerator, yeoman.generators.Base);
-util._extend(LeanerGenerator.prototype, MessagesMixin);
-
-LeanerGenerator.prototype.welcome = function welcome() {
-  if (!this.options['skip-welcome-message']) {
-    this.messages('app.welcome');
-  }
-};
-
-LeanerGenerator.prototype.generateProjectScaffold = function generateProjectScaffold() {
-  async.series([
-    function generateProjectRoot(next) {
-      this.messages('app.generateProjectRoot');
-      Utils(this).copyTemplateDirectory('_root', Paths.dest.root);
-      next();
-    }.bind(this),
-    function generateServerComponents(next) {
-      this.messages('app.generateServerComponents');
-      Utils(this).copyTemplateDirectory('server', Paths.dest.server.root);
-      next();
-    }.bind(this),
-    function generateClientComponents(next) {
-      this.messages('app.generateClientComponents');
-      Utils(this).copyTemplateDirectory('client', Paths.dest.client.root);
-      next();
-    }.bind(this),
-    function installDependencies(next) {
-      if (!this.options['skip-install']) {
-        this.messages('app.installDependencies');
-        this.installDependencies({
-          callback: function() { next(); }
-        });
-      } else {
-        this.messages('app.skippedInstallDependencies');
-        next();
+  },
+  initializing: {
+    welcome: function welcome() {
+      if (!this.options['skip-welcome-message']) {
+        this.messages('app.welcome');
       }
-    }.bind(this),
-    function completed(next) {
-      this.messages('app.completed');
-      next();
-    }.bind(this)
-  ], function () {
+    }
+  },
+  prompting: {},
+  configuring: {},
+  default: {},
+  writing: {
+    generateProjectScaffold: function generateProjectScaffold() {
+      async.series([
+        function generateProjectRoot(next) {
+          this.messages('app.generateProjectRoot');
+          this.copyTemplateDirectory('_root', this.paths.root);
+          next();
+        }.bind(this),
+        function generateServerComponents(next) {
+          this.messages('app.generateServerComponents');
+          this.copyTemplateDirectory('server', this.paths.server.root);
+          next();
+        }.bind(this),
+        function generateClientComponents(next) {
+          this.messages('app.generateClientComponents');
+          this.copyTemplateDirectory('client', this.paths.client.root);
+          next();
+        }.bind(this),
+        function installDependencies(next) {
+          if (!this.options['skip-install']) {
+            this.messages('app.installDependencies');
+            this.installDependencies({
+              callback: function() { next(); }
+            });
+          } else {
+            this.messages('app.skippedInstallDependencies');
+            next();
+          }
+        }.bind(this),
+        function completed(next) {
+          this.messages('app.completed');
+          next();
+        }.bind(this)
+      ], function () {
 
-  });
-};
-
+      });
+    }
+  },
+  conflicts: {},
+  install: {},
+  end: {}
+});

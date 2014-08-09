@@ -5,55 +5,78 @@ var falafel = require('falafel');
 var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
-var yosay = require('yosay');
 var chalk = require('chalk');
-var angularUtils = require('../util.js');
 
-var LeanerGenerator = module.exports = function LeanerGenerator(args, options) {
-  yeoman.generators.NamedBase.apply(this, arguments);
+var LeanerGeneratorNamedBase = require('../lib/generator-named-base');
 
-  try {
-    this.appname = require(path.join(process.cwd(), 'bower.json')).name;
-  } catch (e) {
-    this.appname = path.basename(process.cwd());
-  }
-  this.appname = this._.slugify(this._.humanize(this.appname));
-  this.scriptAppName = this._.camelize(this.appname) + angularUtils.appName(this);
+var LeanerGenerator = LeanerGeneratorNamedBase.extend({
+  constructor: function () {
+    LeanerGeneratorNamedBase.apply(this, arguments);
 
-  if (this.name.split('.').length !== 2) {
-    this.log(chalk.bgRed.white.bold("Error: Expected name to be in '<ngAppName>.<ngAppModuleName>' format. For example: 'yo leaner:ng-module myApp.controllers'"));
-    process.exit(-1);
-  }
-  this.ng_appname = this._.camelize(this.name.split('.')[0]);
-  this.ng_moduleName = this._.camelize(this.name.split('.')[1]);
-  this.ng_moduleFullName = [this.ng_appname, this.ng_moduleName].join('.');
-  // check if ng-app exists
+    if (this.name.split('.').length !== 2) {
+      this.logMessage('ngModule.errorExpectedNameArgumentWrongFormat');
+      process.exit(-1);
+    }
 
-  this.on('end', function () {
-    var endMessage =function endMessage() {
-      this.log('\n\n' + chalk.green('success') + chalk.white(' Your angular app module ' + chalk.bold(this.ng_moduleFullName)+ ' has been created.\n\n'));
-    }.bind(this);
-    endMessage();
+    this.projectName = this.currentProjectName();
+    this.ngAppName = this.normalizeNgAppName(this.name.split('.')[0]);
+    this.ngModuleName = this.normalizeNgModuleName(this.name.split('.')[1]);
+    this.ngModuleFullName = [this.ngAppName, this.ngModuleName].join('.');
 
-  });
-};
+    this.option('skip-completed-message', {
+      desc: 'Skip completion message',
+      type: Boolean,
+      default: false
+    });
 
-util.inherits(LeanerGenerator, yeoman.generators.Base);
+  },
+  initializing: {
+    checkIfProjectExists: function checkIfProjectExists() {
+      var filePath = path.join(process.cwd(), this.paths.client.mainJs);
+      if (!fs.existsSync(filePath)) {
+        this.logMessage('ngApp.errorProjectDoesNotExist');
+        process.exit(-1);
+      }
+    },
+    checkIfNgAppExists: function checkIfNgAppExists() {
+      var filePath = path.join(process.cwd(), this.resolvesNgAppRootPath());
+      if (!fs.existsSync(filePath)) {
+        this.logMessage('ngModule.errorNgAppDoesNotExist');
+        process.exit(-1);
+      }
+    }
+  },
+  prompting: {},
+  configuring: {},
+  default: {},
+  writing: {
+    generateAppModuleScaffold: function generateAppModuleScaffold() {
+      this.logMessage('ngModule.generateAppModuleScaffold');
+      var baseDir = path.join('client/apps', this.ngAppName, this.ngModuleName);
+      this.copyTemplateDirectory('_module', baseDir);
 
-LeanerGenerator.prototype.generateAppModuleScaffold = function generateAppModuleScaffold() {
+    },
+    wireModuleToAppDefinitions: function wireModuleToAppDefinitions() {
+      this.logMessage('ngModule.wireModuleToAppDefinitions');
+      this._wireModuleToAppDefinitions();
+    },
+    completed: function completed() {
+      if (!this.options['skip-completed-message']){
+        this.logMessage('ngModule.completed');
+      }
+    }
+  },
+  conflicts: {},
+  install: {},
+  end: {}
+});
 
-  var baseDir = path.join('client/app', this.ng_appname, this.ng_moduleName);
+LeanerGenerator.prototype._wireModuleToAppDefinitions = function _wireModuleToAppDefinitions() {
 
-  this._processDirectory('_module', baseDir);
-
-};
-
-LeanerGenerator.prototype.wireModuleToAppDefintions = function wireModuleToAppDefintions() {
-
-  var baseFileName = path.join('client/app', this.ng_appname, 'app.js');
+  var baseFileName = this.resolvesNgAppRootPath('app.js');
   var filePath = path.join(process.cwd(), baseFileName);
-  var moduleIndex = path.join(this.ng_appname, this.ng_moduleName, 'index');
-  var moduleFullName = this.ng_moduleFullName;
+  var moduleIndex = path.join(this.ngAppName, this.ngModuleName, 'main');
+  var moduleFullName = this.ngModuleFullName;
   var hasChanges = false;
   var foundKeys = false;
   var didUpdateRequiredArray = false;
@@ -63,7 +86,7 @@ LeanerGenerator.prototype.wireModuleToAppDefintions = function wireModuleToAppDe
   var output = falafel(code, {}, function (node) {
 
     // require module
-
+    // define([], function () {} )
     if (node.type === 'CallExpression'
       && node.callee
       && node.callee.name === 'define'
@@ -100,6 +123,7 @@ LeanerGenerator.prototype.wireModuleToAppDefintions = function wireModuleToAppDe
 
       var alreadyAddedToModule = false;
       var moduleArray = null;
+      // return ng.module( ..., [], ...);
       if (defineFunc.body
         && defineFunc.body.type === 'BlockStatement'
         && defineFunc.body.body
@@ -134,59 +158,23 @@ LeanerGenerator.prototype.wireModuleToAppDefintions = function wireModuleToAppDe
           last.update(last.source() + ',\n    \''+ moduleFullName + '\'');
         }
       }
-
     }
 
   }.bind(this));
 
   if (hasChanges) {
     fs.writeFileSync(filePath, output);
+  }
 
-    if (didUpdateRequiredArray) {
-      this.log(chalk.green('updated ') + chalk.bold(baseFileName) + ' Required ' + chalk.cyan(moduleIndex) + ' module');
-    }
-    if (didUpdateModuleArray) {
-      this.log(chalk.green('updated ') + chalk.bold(baseFileName) + ' Added ' + chalk.cyan(moduleFullName) + ' to ng.module(\'' + this.ng_appname + '\')');
-    }
+  if (hasChanges && didUpdateRequiredArray) {
+    this.logMessage('ngModule.didAddNgModuleToRequiredArray');
+  } else if (hasChanges && didUpdateModuleArray) {
+    this.logMessage('ngModule.didAddNgModuleToModuleArray');
   } else if (!hasChanges && foundKeys) {
-    this.log(chalk.green('no changes ') + chalk.bold(baseFileName) + ' Module ' + chalk.cyan(this.ng_moduleFullName) + ' already configured previously');
+    this.logMessage('ngModule.ngModuleAlreadyExistsInPackages');
   } else {
-    this.log(chalk.green('no changes ') +
-        chalk.bold(baseFileName) +
-        chalk.yellow(' Unable to automatically include ' +
-          this.ng_moduleFullName + '. You may need to add it manually.' +
-          '\nExample: \n' +
-          'define.([\n' +
-          '  \'require\',\n' +
-          '  \'angular\',\n' +
-          '  ...\n' +
-          '  \'') +  chalk.white(moduleIndex) + chalk.yellow('\'') + chalk.grey(' // require module loader file') + chalk.yellow('\n' +
-          '], function (require, ng) {\n  ...\n'+
-          '  return ng.module(\'LAVA\', [\n'+
-          '    ...\n' +
-          '  \'') +  chalk.white(moduleFullName) +  chalk.yellow('\'') + chalk.grey(' // add module to ng-app') + chalk.yellow('\n' +
-          '  ]);\n' +
-          '});'
-      )
-    );
+    this.logMessage('ngModule.unableToDefineNgModuleAutomatically');
   }
 };
 
-
-LeanerGenerator.prototype._processDirectory = function(source, destination) {
-  var root = this.isPathAbsolute(source) ? source : path.join(this.sourceRoot(), source);
-  var files = this.expandFiles('**', { dot: true, cwd: root });
-
-  for (var i = 0; i < files.length; i++) {
-    var f = files[i];
-    var src = path.join(root, f);
-    if(path.basename(f).indexOf('_') == 0){
-      var dest = path.join(destination, path.dirname(f), path.basename(f).replace(/^_/, ''));
-      this.template(src, dest);
-    }
-    else{
-      var dest = path.join(destination, f);
-      this.copy(src, dest);
-    }
-  }
-};
+module.exports = LeanerGenerator;

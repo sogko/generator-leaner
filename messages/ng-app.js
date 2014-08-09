@@ -105,6 +105,15 @@ module.exports = {
       '\n'
     ].join('');
   },
+  didAddNgAppToDependencies: function () {
+    return [
+      TerminalUtils.label('green', 'updated'),
+      chalk.white('Added '),
+      chalk.bold(this.ngAppName),
+      chalk.white(' to \'config.deps\''),
+      '\n'
+    ].join('');
+  },
   ngAppAlreadyExistsInPackages: function () {
     return [
       TerminalUtils.label('yellow', 'no changes'),

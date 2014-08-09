@@ -69,6 +69,7 @@ LeanerGenerator.prototype._wireClientMainJs = function _wireClientMainJs() {
   var hasChanges = false;
   var foundKeys = false;
   var didAddNgAppToPackages = false;
+  var didAddNgAppToDependencies = false;
 
   var code = this.read(filePath);
   var output = falafel(code, {}, function (node) {
@@ -109,14 +110,41 @@ LeanerGenerator.prototype._wireClientMainJs = function _wireClientMainJs() {
       }
     }
 
+    // deps: []
+    if (node.type === 'Property'
+      && node.key.name === 'deps'
+      && node.value.type === 'ArrayExpression') {
+
+      foundKeys = true;
+
+      // find if app package already defined
+      var isNewApp = true;
+      _.forEach(node.value.elements, function (elem) {
+        if (elem.type === 'Literal' && elem.value === this.ngAppName) isNewApp = false;
+      }.bind(this));
+
+      if (isNewApp) {
+        didAddNgAppToDependencies = true;
+        hasChanges = true;
+        var str = "'"+ this.ngAppName+"'";
+        if (node.value.elements.length === 0) {
+          node.value.update(['[\n    ', str, '\n  ]'].join(''));
+        } else {
+          var last = node.value.elements[node.value.elements.length-1];
+          last.update(last.source() + ',\n    '+ str);
+        }
+      }
+    }
+
   }.bind(this));
 
   if (hasChanges) {
     fs.writeFileSync(filePath, output);
   }
 
-  if (hasChanges && didAddNgAppToPackages) {
-    this.logMessage('ngApp.didAddNgAppToPackages');
+  if (hasChanges) {
+    if (didAddNgAppToPackages) this.logMessage('ngApp.didAddNgAppToPackages');
+    if (didAddNgAppToDependencies) this.logMessage('ngApp.didAddNgAppToDependencies');
   } else if (!hasChanges && foundKeys) {
     this.logMessage('ngApp.ngAppAlreadyExistsInPackages');
   } else {

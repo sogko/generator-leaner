@@ -35,18 +35,6 @@ var LeanerGenerator = LeanerGeneratorNamedBase.extend({
       type: Boolean,
       default: false
     });
-
-//    this.logMessage('ngController.errorExpectedNameArgumentWrongFormat');
-//    this.logMessage('ngController.errorNgControllerDoesNotExist');
-//    this.logMessage('ngController.completed');
-//    this.logMessage('ngController.generateControllerScaffold');
-//    this.logMessage('ngController.wireControllerToLoaderDefinitions');
-//    this.logMessage('ngController.didAddNgControllerToRequiredArray');
-//    this.logMessage('ngController.ngControllerAlreadyExistsInPackages');
-//    this.logMessage('ngController.unableToDefineNgControllerAutomatically');
-//
-//    process.exit(-1);
-
   },
   initializing: {
     checkIfProjectExists: function checkIfProjectExists() {

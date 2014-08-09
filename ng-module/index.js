@@ -163,11 +163,9 @@ LeanerGenerator.prototype._wireModuleToAppDefinitions = function _wireModuleToAp
   if (hasChanges) {
     fs.writeFileSync(filePath, output);
   }
-
-  if (hasChanges && didUpdateRequiredArray) {
-    this.logMessage('ngModule.didAddNgModuleToRequiredArray');
-  } else if (hasChanges && didUpdateModuleArray) {
-    this.logMessage('ngModule.didAddNgModuleToModuleArray');
+  if (hasChanges) {
+    if (didUpdateRequiredArray) this.logMessage('ngModule.didAddNgModuleToRequiredArray');
+    if (didUpdateModuleArray) this.logMessage('ngModule.didAddNgModuleToModuleArray');
   } else if (!hasChanges && foundKeys) {
     this.logMessage('ngModule.ngModuleAlreadyExistsInPackages');
   } else {

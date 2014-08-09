@@ -7,7 +7,7 @@
 
 var chalk = require('chalk');
 var yosay = require('yosay');
-var TerminalUtils = require('./../../terminal-utils');
+var TerminalUtils = require('./../lib/terminal-utils');
 
 module.exports = {
   welcome: function () {
@@ -23,10 +23,12 @@ module.exports = {
       '\n',
       '\n',
       TerminalUtils.banner('success', 'Completed'),
+      '\n',
       chalk.white('Your LEANER project ' + chalk.bold(this.projectName) + ' has been created.'),
       '\n',
       '\n',
       TerminalUtils.banner('info', 'Quick Start Tips'),
+      '\n',
       TerminalUtils.list(null, '1.'), 'Run ', chalk.cyan('npm start'), ' to serve the app at ' ,
       chalk.bold(this.serverBaseHttpUrl()),
       '\n',

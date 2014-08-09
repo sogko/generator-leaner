@@ -5,19 +5,9 @@ var path = require('path');
 var async = require('async');
 var yeoman = require('yeoman-generator');
 
+var LeanerGeneratorBase = require('../lib/generator-base');
 
-var MessagesMixins = require('../lib/mixins/messages');
-var ActionsMixins = require('../lib/mixins/actions');
-var PathsMixins = require('../lib/mixins/paths');
-
-var LeanerGeneratorBase = yeoman.generators.Base.extend({});
-
-// mix-ins
-_.extend(LeanerGeneratorBase.prototype, PathsMixins);
-_.extend(LeanerGeneratorBase.prototype, ActionsMixins);
-_.extend(LeanerGeneratorBase.prototype, MessagesMixins);
-
-var LeanerGenerator = module.exports = LeanerGeneratorBase.extend({
+var LeanerGenerator = LeanerGeneratorBase.extend({
 
   constructor: function () {
     LeanerGeneratorBase.apply(this, arguments);
@@ -49,7 +39,7 @@ var LeanerGenerator = module.exports = LeanerGeneratorBase.extend({
   initializing: {
     welcome: function welcome() {
       if (!this.options['skip-welcome-message']) {
-        this.messages('app.welcome');
+        this.logMessage('app.welcome');
       }
     }
   },
@@ -57,36 +47,36 @@ var LeanerGenerator = module.exports = LeanerGeneratorBase.extend({
   configuring: {},
   default: {},
   writing: {
-    generateProjectScaffold: function generateProjectScaffold() {
+    generateProjectRoot: function generateProjectRoot() {
+      this.logMessage('app.generateProjectRoot');
+      this.copyTemplateDirectory('_root', this.paths.root);
+    },
+    generateServerComponents: function generateServerComponents() {
+      this.logMessage('app.generateServerComponents');
+      this.copyTemplateDirectory('server', this.paths.server.root);
+    },
+    generateClientComponents: function generateClientComponents() {
+      this.logMessage('app.generateClientComponents');
+      this.copyTemplateDirectory('client', this.paths.client.root);
+    }
+  },
+  conflicts: {},
+  install: {
+    installDependencies: function generateProjectScaffold() {
       async.series([
-        function generateProjectRoot(next) {
-          this.messages('app.generateProjectRoot');
-          this.copyTemplateDirectory('_root', this.paths.root);
-          next();
-        }.bind(this),
-        function generateServerComponents(next) {
-          this.messages('app.generateServerComponents');
-          this.copyTemplateDirectory('server', this.paths.server.root);
-          next();
-        }.bind(this),
-        function generateClientComponents(next) {
-          this.messages('app.generateClientComponents');
-          this.copyTemplateDirectory('client', this.paths.client.root);
-          next();
-        }.bind(this),
         function installDependencies(next) {
           if (!this.options['skip-install']) {
-            this.messages('app.installDependencies');
+            this.logMessage('app.installDependencies');
             this.installDependencies({
               callback: function() { next(); }
             });
           } else {
-            this.messages('app.skippedInstallDependencies');
+            this.logMessage('app.skippedInstallDependencies');
             next();
           }
         }.bind(this),
         function completed(next) {
-          this.messages('app.completed');
+          this.logMessage('app.completed');
           next();
         }.bind(this)
       ], function () {
@@ -94,7 +84,7 @@ var LeanerGenerator = module.exports = LeanerGeneratorBase.extend({
       });
     }
   },
-  conflicts: {},
-  install: {},
   end: {}
 });
+
+module.exports = LeanerGenerator;

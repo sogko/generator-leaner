@@ -6,7 +6,7 @@
 'use strict';
 
 var chalk = require('chalk');
-var TerminalUtils = require('./../../terminal-utils');
+var TerminalUtils = require('./../lib/terminal-utils');
 
 module.exports = {
   errorProjectDoesNotExist: function () {
@@ -30,6 +30,7 @@ module.exports = {
       '\n',
       '\n',
       TerminalUtils.banner('success', 'Completed'),
+      '\n',
       chalk.white('Your LEANER ng-app (Angular app) ' + chalk.bold(this.ngAppName) + ' has been created.'),
       '\n',
       '\n',
@@ -42,6 +43,7 @@ module.exports = {
       '\n',
       '\n',
       TerminalUtils.banner('info', 'Quick Start Tips'),
+      '\n',
       TerminalUtils.list(null, '1.'), 'For starters, the following ng-modules (Angular modules) has been created for you:',
       '\n',
       TerminalUtils.list(null, '   -'), this.ngAppName + '.controllers',
@@ -56,7 +58,7 @@ module.exports = {
       TerminalUtils.list(null, '2.'), 'A sample controller ', chalk.bold(this.ngAppName + '.controllers.HomeController'), ' has been created for you to help you get started.',
       '\n',
       '\n',
-      TerminalUtils.list(null, '3.'), 'Run ' + chalk.cyan('yo leaner:ng-module ' + this.ngAppName + '.<moduleName>') , ' to create a new ng-module (Angular module) for you app.',
+      TerminalUtils.list(null, '3.'), 'Run ' + chalk.cyan('yo leaner:ng-module ' + this.ngAppName + '.<moduleName>') , ' to create another ng-module (Angular module) for your app.',
       '\n',
       '\n',
       TerminalUtils.rule(' [leaner:ng-app] END '),
@@ -113,13 +115,13 @@ module.exports = {
   },
   unableToDefineNgAppAutomatically: function () {
     return [
-      TerminalUtils.label('yellow', 'no changes'),
+      TerminalUtils.label('yellow', 'skip'),
       chalk.white('Unable to automatically add '),
       chalk.bold(this.ngAppName),
       chalk.white(' in \'config.packages\''),
       '\n',
       '\n',
-      chalk.white('You may need to add it manually to enable the app.'),
+      chalk.white('You may need to add it manually to include the ng-module'),
       '\n',
       chalk.white('Example: '),
       '\n',
@@ -144,7 +146,7 @@ module.exports = {
     return [
       '\n',
       TerminalUtils.label('cyan', 'info'),
-      chalk.white('Creating default modules for '),
+      chalk.white('Creating default ng-modules (controllers, directives, filters, services) for '),
       chalk.bold(this.ngAppName),
       '\n'
     ].join('');

@@ -1,9 +1,8 @@
 'use strict';
-var util = require('util');
+
 var _ = require('lodash');
 var path = require('path');
 var async = require('async');
-var yeoman = require('yeoman-generator');
 
 var LeanerGeneratorBase = require('../lib/generator-base');
 

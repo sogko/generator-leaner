@@ -1,12 +1,10 @@
 'use strict';
+
 var fs = require('fs');
 var falafel = require('falafel');
 var async = require('async');
 var _ = require('lodash');
-var util = require('util');
 var path = require('path');
-var yeoman = require('yeoman-generator');
-var chalk = require('chalk');
 
 var LeanerGeneratorNamedBase = require('../lib/generator-named-base');
 

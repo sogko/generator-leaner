@@ -2,10 +2,19 @@
 
 Recommended folder to organize your server-side models. 
 
-Consider using object modelling tools for your database of choice.
+### Tips
 
-Some suggestions:
+Consider using object data modelling tools for your database of choice.
 
-* Mongoose: MongoD: 
-* node-orm2 or sequalize: MySQL, SQLite, PostgreSQL and other SQL databases 
+Some are some suggestions:
+
+For MongoDb:
+* [Mongoose](http://mongoosejs.com/)
+ 
+For MySQL, SQLite, PostgreSQL and other SQL databases 
+* [node-orm2](https://github.com/dresende/node-orm2)
+* [sequalize](http://sequelizejs.com)
+
+Store-agnostic
+* [osmos](https://github.com/telemetryapp/osmos)
 

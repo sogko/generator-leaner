@@ -19,6 +19,7 @@ new JavaScript file component that you need.
 * Every component (Angular apps, modules, Bower dependencies) generated for this stack uses the AMD API.
 * Read more about [the benefits of AMD](http://requirejs.org/docs/whyamd.html)
 
+
 ## Default Structure
 
 The ```client``` folder contains the following default components:
@@ -32,10 +33,7 @@ The ```client``` folder contains the following default components:
         * [```vendor/```](assets/js/vendor/)
 
 
-------
-### Structure Description
-
-#### main.js
+### main.js
 File: [```main.js```](main.js)
 
 This the main loader file for your client-side scripts and applications.
@@ -46,24 +44,13 @@ This file contains RequireJS configuration options for your main loader. This is
 
 Read more about [RequireJS configuration options](http://requirejs.org/docs/api.html#config)
 
-#### apps/
-Folder: [```apps/```](apps/)
+### apps/
 
-This is the recommended folder to organize your modular Angular apps (ng-app).
- 
-When creating an new ng-app using the generator ```yo leaner:ng-app <myAppName>```, 
-the generator will do the following:
+See: [```apps/```](apps/)
 
-* create a folder for each app in the ```apps``` folder.
-* update the ```main.js``` to define the ng-app as a package and include it as a dependency.
-* wire up a server endpoint for the ng-app, eg: ```http://localhost:3000/<myAppName>/```
+### assets/
+See: [```assets/```](assets/)
 
-#### assets/
-Folder: [```assets/```](assets/)
-
-This is the recommended folder to organize your client-side assets (stylesheets, Javascript libraries, etc)
-
-------
 
 ## Tips
 

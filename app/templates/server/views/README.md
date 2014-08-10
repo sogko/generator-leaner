@@ -2,14 +2,14 @@
 
 Recommended folder to organize your ExpressJS views.
 
-By default, the stack uses [Handlebar.js](https://github.com/wycats/handlebars.js/) for its view templating needs.
+By default, the stack uses [Handlebars.js](https://github.com/wycats/handlebars.js/) for its view templating needs.
 
 ## Default Structure
 
 The ```views``` folder is organized the following way by default:
 
-* [```layouts/```](layouts/): Handlebar.js layout templates folder
-* [```partials/```](partials/): Handlebar.js partial templates folder
+* [```layouts/```](layouts/): Handlebars.js layout templates folder
+* [```partials/```](partials/): Handlebars.js partial templates folder
 * [```about.hbs```](about.hbs): Generated template for About view (```/about```)
 * [```home.hbs```](home.hbs): Generated template for Home view (```/```)
 

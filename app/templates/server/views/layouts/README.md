@@ -1,6 +1,6 @@
 # HandlebarsJS Layout Templates
 
-Recommended folder to organize your Handlebar.js layout templates.
+Recommended folder to organize your Handlebars.js layout templates.
 
 By default, the stack generates a default layout template [```main.hbs```](./main.hbs).
 
@@ -11,15 +11,15 @@ If you plan to continue on using RequireJS to leverage on its power of loading s
 ensure that you include the 
 ```<script>``` tag before ```{{{body}}}```
 
-```
-...
+```html
+    ...
     <script src="/assets/js/vendor/requirejs/require.js" data-main="/main.js"></script>
     {{{body}}}
 
 ```
 
 The above HTML/template snippet will load RequireJS and instructs it to load the main entry-point script for our client application(s).
-The main script can be found in (```/client/main.js```)[../../../client/main.js]
+The main script can be found in [```/client/main.js```](../../../client/main.js)
 
 
 ### Choosing a different folder organization

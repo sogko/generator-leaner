@@ -1,6 +1,6 @@
 # HandlebarsJS Partial Templates
 
-Recommended folder to organize your Handlebar.js partials templates.
+Recommended folder to organize your Handlebars.js partials templates.
 
 ## Tips
 If you choose to organize your ```partials``` folder differently (and you may!), 

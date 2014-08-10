@@ -9,7 +9,8 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var config = require('./config');
 var _ = require('lodash');
-var dir = require('node-dir');
+var path = require('path');
+var glob = require('glob');
 
 // require main expressjs and export app
 var express = require('express');
@@ -38,8 +39,7 @@ app.use(parseQueryJSON());
 // streaming parser for HTML form data
 app.use(busboy());
 
-// auto-load routing files in 'routes' folder
-dir.files(config.dirs.routes, function (err, files) {
+glob(path.join(config.dirs.routes, '/**/*.js'), {}, function (er, files) {
   _.forEach(files, function (f) { require(f); });
 });
 

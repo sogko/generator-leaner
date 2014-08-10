@@ -1,6 +1,7 @@
 {
   "node": true,
   "esnext": true,
+  "browser": true,
   "bitwise": true,
   "camelcase": true,
   "curly": true,
@@ -17,5 +18,24 @@
   "strict": true,
   "trailing": true,
   "smarttabs": true,
-  "white": true
+  "globals": { // Globals variables.
+    "angular": true
+  },
+  "predef": [ // Extra globals.
+    "define",
+    "require",
+    "exports",
+    "module",
+    "describe",
+    "before",
+    "beforeEach",
+    "after",
+    "afterEach",
+    "it",
+    "inject",
+    "expect"
+  ],
+  "white": true,
+  "devel": false,
+  "noempty": false
 }

@@ -4,7 +4,6 @@
 
 'use strict';
 
-var _ = require('lodash');
 var app = require('../app');
 var express = require('express');
 var router = express.Router({

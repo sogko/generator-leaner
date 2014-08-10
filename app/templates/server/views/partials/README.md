@@ -1,7 +1,12 @@
 # HandlebarsJS Partial Templates
 
-Recommended folder to organize your HandlebarsJS partials templates.
+Recommended folder to organize your Handlebar.js partials templates.
 
-By default, ```config.handlebars.partialDirs``` was set to this current directory.
+## Tips
+If you choose to organize your ```partials``` folder differently (and you may!), 
+remember to reflect the changes in [```/server/config.js```](../../config.js).
 
-Remember to reflect ```/server/config.js``` if you'd like to organize it differently.
+Affected config settings:
+
+* ```config.handlebars.partialsDir```
+

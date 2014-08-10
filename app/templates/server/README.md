@@ -1,4 +1,4 @@
-# ExpressJS Server Folder
+# ExpressJS Server
 
 Recommended folder to organize your ExpressJS server and its components.
 
@@ -12,6 +12,8 @@ The ```server``` folder contains the following default components:
 * [```models/```](models/)
 * [```routes/```](routes/)
 * [```views/```](views/)
+    * [```layouts/```](views/layouts/)
+    * [```partials/```](views/partials/)
 
 ## Tips
 If you choose to organize your ```server``` folder differently (and you may!), 

@@ -1,7 +1,7 @@
 /**
- * Main entry-point for client side applications
+ * Main loader for client side scripts and applications
  *
- * By default, this file is loaded by /server/views/layouts/main.hbs
+ * By default, this file is loaded from /server/views/layouts/main.hbs
  */
 'use strict';
 

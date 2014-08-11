@@ -110,8 +110,13 @@ LeanerGenerator.prototype._wireClientMainJs = function _wireClientMainJs() {
       }
     }
 
-    // deps: []
-    if (node.type === 'Property'
+
+    // disable writing to deps[], since we don't load ng-app until loaded from app's endpoint
+    var writeToDependencies = false;
+
+    // deps: [] (NOTE: disabled)
+    if (writeToDependencies === true
+      && node.type === 'Property'
       && node.key.name === 'deps'
       && node.value.type === 'ArrayExpression') {
 

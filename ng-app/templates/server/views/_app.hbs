@@ -1,0 +1,19 @@
+<div ui-view>
+    Loading <%= ngAppName %>...
+</div>
+<!--
+/**
+* Bootstraps Angular app <%= ngAppName%> onto the window.document node.
+*
+* NOTE: the ng-app attribute should not be on the index.html when using ng.bootstrap
+*/
+-->
+<script type="text/javascript">
+    require(['require', 'main'], function (require) {
+        'use strict';
+        require(['domReady!', 'angular', '<%= ngAppName %>'], function (document, ng) {
+            try { ng.bootstrap(document, ['<%= ngAppName %>']); }
+            catch (e) { console.error(e.message); }
+        });
+    });
+</script>

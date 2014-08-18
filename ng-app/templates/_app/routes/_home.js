@@ -3,20 +3,16 @@
  */
 'use strict';
 
-define([
-  '<%= ngAppName %>/app',
-  '<%= ngAppName %>/env'
-], function (app, env) {
+var app = module.exports = require('../app');
+var env = require('../env');
 
-  app.config(['$stateProvider', function ($stateProvider) {
+app.config(['$stateProvider', function ($stateProvider) {
+  $stateProvider
+    .state('home', {
+      url: '/home',
+      templateUrl: env.templatePath('home.html'),
+      controller: 'HomeController'
+    });
+}]);
 
-    $stateProvider
-      .state('home', {
-        url: '/home',
-        templateUrl: env.templatePath('home.html'),
-        controller: 'HomeController'
-      });
-  }]);
-
-  return app;
-});
+console.log('Loaded <%= ngAppName %>/routes/home.js');

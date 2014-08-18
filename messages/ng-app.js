@@ -9,22 +9,22 @@ var chalk = require('chalk');
 var TerminalUtils = require('./../lib/terminal-utils');
 
 module.exports = {
-  errorProjectDoesNotExist: function () {
-    return [
-      '\n',
-      '\n',
-      TerminalUtils.banner('white', 'Failed to complete'),
-      '\n',
-      TerminalUtils.label('error', 'Fatal Error'),
-      chalk.white('LEANER project does not exists in current directory or '), chalk.white.bold(this.paths.client.mainJs), ' is missing',
-      '\n',
-      TerminalUtils.list(null, '1.'), 'Run ', chalk.cyan('yo leaner'), ' to init current directory and generate LEANER project',
-      '\n',
-      '\n',
-      TerminalUtils.rule(' [leaner:ng-app] END '),
-      '\n'
-    ].join('');
-  },
+//  errorProjectDoesNotExist: function () {
+//    return [
+//      '\n',
+//      '\n',
+//      TerminalUtils.banner('white', 'Failed to complete'),
+//      '\n',
+//      TerminalUtils.label('error', 'Fatal Error'),
+//      chalk.white('LEANER project does not exists in current directory or '), chalk.white.bold(this.paths.client.mainJs), ' is missing',
+//      '\n',
+//      TerminalUtils.list(null, '1.'), 'Run ', chalk.cyan('yo leaner'), ' to init current directory and generate LEANER project',
+//      '\n',
+//      '\n',
+//      TerminalUtils.rule(' [leaner:ng-app] END '),
+//      '\n'
+//    ].join('');
+//  },
   completed: function () {
     return [
       '\n',

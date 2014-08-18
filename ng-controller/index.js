@@ -38,11 +38,11 @@ var LeanerGenerator = LeanerGeneratorNamedBase.extend({
   },
   initializing: {
     checkIfProjectExists: function checkIfProjectExists() {
-      var filePath = path.join(process.cwd(), this.paths.client.mainJs);
-      if (!fs.existsSync(filePath)) {
-        this.logMessage('ngApp.errorProjectDoesNotExist');
-        process.exit(-1);
-      }
+//      var filePath = path.join(process.cwd(), this.paths.client.mainJs);
+//      if (!fs.existsSync(filePath)) {
+//        this.logMessage('ngApp.errorProjectDoesNotExist');
+//        process.exit(-1);
+//      }
     },
     checkIfNgAppExists: function checkIfNgAppExists() {
       var filePath = path.join(process.cwd(), this.resolvesNgAppRootPath());
@@ -69,11 +69,11 @@ var LeanerGenerator = LeanerGeneratorNamedBase.extend({
 
     },
     wireControllerToLoaderDefinitions: function wireControllerToLoaderDefinitions() {
-      this.logMessage('ngController.wireControllerToLoaderDefinitions');
-      this._wireControllerToLoaderDefinitions();
+//      this.logMessage('ngController.wireControllerToLoaderDefinitions');
+//      this._wireControllerToLoaderDefinitions();
     },
     completed: function completed() {
-      if (!this.options['skip-completed-message']){
+      if (!this.options['skip-completed-message']) {
         this.logMessage('ngController.completed');
       }
     }
@@ -96,13 +96,13 @@ LeanerGenerator.prototype._wireControllerToLoaderDefinitions = function _wireCon
   var output = falafel(code, {}, function (node) {
 
     // define([], function(){});
-    if (node.type === 'CallExpression'
-      && node.callee
-      && node.callee.name === 'define'
-      && node.arguments
-      && node.arguments.length === 2
-      && node.arguments[0].type === 'ArrayExpression'
-      && node.arguments[1].type === 'FunctionExpression'
+    if (node.type === 'CallExpression' &&
+      node.callee &&
+      node.callee.name === 'define' &&
+      node.arguments &&
+      node.arguments.length === 2 &&
+      node.arguments[0].type === 'ArrayExpression' &&
+      node.arguments[1].type === 'FunctionExpression'
       ) {
 
       var defineRequireArray = node.arguments[0];
@@ -111,8 +111,8 @@ LeanerGenerator.prototype._wireControllerToLoaderDefinitions = function _wireCon
 
       var alreadyRequired = false;
       _.forEach(defineRequireArray.elements, function (elem) {
-        if (elem.type === 'Literal'
-          && elem.value === this.ngControllerComponentFile) {
+        if (elem.type === 'Literal' &&
+          elem.value === this.ngControllerComponentFile) {
           alreadyRequired = true;
         }
       }.bind(this));
@@ -123,8 +123,8 @@ LeanerGenerator.prototype._wireControllerToLoaderDefinitions = function _wireCon
         if (defineRequireArray.elements.length === 0) {
           defineRequireArray.update(['[\n  \'', this.ngControllerComponentFile, '\'\n]'].join(''));
         } else {
-          var last = defineRequireArray.elements[defineRequireArray.elements.length-1];
-          last.update(last.source() + ',\n  \''+ this.ngControllerComponentFile + '\'');
+          var last = defineRequireArray.elements[defineRequireArray.elements.length - 1];
+          last.update(last.source() + ',\n  \'' + this.ngControllerComponentFile + '\'');
         }
       }
     }

@@ -1,2 +1,4 @@
 node_modules
-client/assets/js/vendor
+bower_components
+client/dist
+tests/build

@@ -5,9 +5,9 @@
     unless of course you know what you are doing =)
 
     Note:
-    - '/main.js' has to be required before 'body'
-    - You may use '/build/main.js' instead if you want to use minified version of the client apps.
-      Ensure that you have run 'grunt' first to build minified client Javascript files
+    - 'common.js' has to be required before 'body' to load common modules bundle that
+    will be used by other client applications
+
 
 }}
 <!doctype html>
@@ -20,10 +20,8 @@
     <link rel="stylesheet" href="/assets/css/site.css"/>
 </head>
 <body>
-{{! Load main entry-point using RequireJS }}
-<script src="/assets/js/vendor/requirejs/require.js" data-main="/main.js"></script>
-<!-- Replace the above <script> tag with the following <script> tag to use a minified version of the client apps -->
-<!-- <script src="/assets/js/vendor/requirejs/require.js" data-main="/build/main.js"></script> -->
+{{! Load browserified `common` bundle }}
+<script src="/dist/js/common.js"></script>
 
 {{{body}}}
 

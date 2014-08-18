@@ -11,11 +11,11 @@ var router = express.Router({
   strict: app.get('strict routing')
 });
 
-router.get('/', function(req, res) {
+router.get('/', function (req, res) {
   res.render('home');
 });
 
-router.get('/about', function(req, res) {
+router.get('/about', function (req, res) {
   res.render('about');
 });
 

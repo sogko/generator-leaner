@@ -1,6 +1,5 @@
 'use strict';
 
-var _ = require('lodash');
 var path = require('path');
 var async = require('async');
 
@@ -19,7 +18,7 @@ var LeanerGenerator = LeanerGeneratorBase.extend({
       required: false
     });
     this.projectName = this.currentProjectName();
-    console.log('this.projectName',this.projectName);
+    console.log('this.projectName', this.projectName);
 
     // define options
     this.option('skip-install', {
@@ -67,7 +66,7 @@ var LeanerGenerator = LeanerGeneratorBase.extend({
           if (!this.options['skip-install']) {
             this.logMessage('app.installDependencies');
             this.installDependencies({
-              callback: function() { next(); }
+              callback: function () { next(); }
             });
           } else {
             this.logMessage('app.skippedInstallDependencies');

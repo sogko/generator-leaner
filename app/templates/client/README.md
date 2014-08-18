@@ -24,7 +24,7 @@ new JavaScript file component that you need.
 
 The ```client``` folder contains the following default components:
 
-* [```main.js```](#mainjs)
+* [```config.js```](#configjs)
 * [```apps/```](#apps)
 * [```assets/```](#assets)
     * [```css/```](assets/css/)
@@ -33,16 +33,9 @@ The ```client``` folder contains the following default components:
         * [```vendor/```](assets/js/vendor/)
 
 
-### main.js
-File: [```main.js```](main.js)
+### config.js
+File: [```config.js```](config.js)
 
-This the main loader file for your client-side scripts and applications.
-
-By default, this file is loaded from [```/server/views/layouts/main.hbs```](../server/views/layouts/main.hbs) using RequireJS
-
-This file contains RequireJS configuration options for your main loader. This is also where you can define your JavaScript library dependencies and your Angular apps here.
-
-Read more about [RequireJS configuration options](http://requirejs.org/docs/api.html#config)
 
 ### apps/
 

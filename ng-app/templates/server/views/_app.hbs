@@ -8,12 +8,14 @@
 * NOTE: the ng-app attribute should not be on the index.html when using ng.bootstrap
 */
 -->
+<script src="/dist/js/apps/<%= ngAppName%>/app.js"></script>
 <script type="text/javascript">
-    require(['require', 'main'], function (require) {
-        'use strict';
-        require(['domReady!', 'angular', '<%= ngAppName %>'], function (document, ng) {
-            try { ng.bootstrap(document, ['<%= ngAppName %>']); }
-            catch (e) { console.error(e.message); }
+    'use strict';
+    try {
+        angular.element(document).ready(function() {
+            angular.bootstrap(document, ['<%= ngAppName %>']);
         });
-    });
+    } catch (e) {
+        console.error(e.message);
+    }
 </script>

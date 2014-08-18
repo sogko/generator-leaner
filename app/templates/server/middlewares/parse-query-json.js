@@ -10,7 +10,7 @@ var url = require('url');
 var qs = require('querystring');
 
 module.exports = function parseQueryJSON() {
-  return function(req, res, next){
+  return function (req, res, next) {
     var parsedUrl = url.parse(req.url);
     req.query = qs.parse(parsedUrl.query);
     next();

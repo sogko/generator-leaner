@@ -22,19 +22,19 @@ var LeanerGenerator = LeanerGeneratorNamedBase.extend({
 
   },
   initializing: {
-    checkIfProjectExists:function checkIfProjectExists() {
-      var filePath = path.join(process.cwd(), this.paths.client.mainJs);
-      if (!fs.existsSync(filePath)) {
-        this.logMessage('ngApp.errorProjectDoesNotExist');
-        process.exit(-1);
-      }
+    checkIfProjectExists: function checkIfProjectExists() {
+//      var filePath = path.join(process.cwd(), this.paths.client.mainJs);
+//      if (!fs.existsSync(filePath)) {
+//        this.logMessage('ngApp.errorProjectDoesNotExist');
+//        process.exit(-1);
+//      }
     }
   },
   prompting: {},
   configuring: {},
   default: {},
   writing: {
-    generateClientApp: function generateClientApp(next) {
+    generateClientApp: function generateClientApp() {
       this.logMessage('ngApp.generateClientApp');
       this.copyTemplateDirectory('_app', this.resolvesNgAppRootPath());
     },
@@ -43,10 +43,10 @@ var LeanerGenerator = LeanerGeneratorNamedBase.extend({
       this.copy('server/routes/_app.js', path.join('server/routes/', this.ngAppName + '.js'));
       this.copy('server/views/_app.hbs', path.join('server/views/', this.ngAppName, 'home.hbs'));
     },
-    wireClientMainJs: function wireClientMainJs() {
-      this.logMessage('ngApp.wireClientMainJs');
-      this._wireClientMainJs();
-    },
+//    wireClientMainJs: function wireClientMainJs() {
+//      this.logMessage('ngApp.wireClientMainJs');
+//      this._wireClientMainJs();
+//    },
     createDefaultModules: function createDefaultModules() {
       var done = this.async();
       this.logMessage('ngApp.createDefaultModules');
@@ -66,6 +66,10 @@ LeanerGenerator.prototype._wireClientMainJs = function _wireClientMainJs() {
   var baseFileName = this.paths.client.mainJs;
   var filePath = path.join(process.cwd(), baseFileName);
 
+  var isNewApp;
+  var str;
+  var last;
+
   var hasChanges = false;
   var foundKeys = false;
   var didAddNgAppToPackages = false;
@@ -75,22 +79,22 @@ LeanerGenerator.prototype._wireClientMainJs = function _wireClientMainJs() {
   var output = falafel(code, {}, function (node) {
 
     // packages: []
-    if (node.type === 'Property'
-      && node.key.name === 'packages'
-      && node.value.type === 'ArrayExpression') {
+    if (node.type === 'Property' &&
+      node.key.name === 'packages' &&
+      node.value.type === 'ArrayExpression') {
 
       foundKeys = true;
 
       // find if app package already defined
-      var isNewApp = true;
+      isNewApp = true;
       _.forEach(node.value.elements, function (elem) {
         switch (elem.type) {
           case 'Literal':
-            if (elem.value === this.ngAppName) isNewApp = false;
+            if (elem.value === this.ngAppName) { isNewApp = false; }
             break;
           case 'ObjectExpression':
             _.forEach(elem.properties, function (prop) {
-              if (prop.value && prop.value.value === this.ngAppName) isNewApp = false;
+              if (prop.value && prop.value.value === this.ngAppName) { isNewApp = false; }
             }.bind(this));
             break;
         }
@@ -99,12 +103,12 @@ LeanerGenerator.prototype._wireClientMainJs = function _wireClientMainJs() {
       if (isNewApp) {
         didAddNgAppToPackages = true;
         hasChanges = true;
-        var str = "{ name: '"+ this.ngAppName+"', location: 'apps/"+ this.ngAppName +"' }";
+        str = '\'{ name: \'' + this.ngAppName + '\', location: \'apps/' + this.ngAppName + '\' }';
         if (node.value.elements.length === 0) {
           node.value.update(['[\n    ', str, '\n  ]'].join(''));
         } else {
-          var last = node.value.elements[node.value.elements.length-1];
-          last.update(last.source() + ',\n    '+ str);
+          last = node.value.elements[node.value.elements.length - 1];
+          last.update(last.source() + ',\n    ' + str);
         }
 
       }
@@ -115,28 +119,28 @@ LeanerGenerator.prototype._wireClientMainJs = function _wireClientMainJs() {
     var writeToDependencies = false;
 
     // deps: [] (NOTE: disabled)
-    if (writeToDependencies === true
-      && node.type === 'Property'
-      && node.key.name === 'deps'
-      && node.value.type === 'ArrayExpression') {
+    if (writeToDependencies === true &&
+      node.type === 'Property' &&
+      node.key.name === 'deps' &&
+      node.value.type === 'ArrayExpression') {
 
       foundKeys = true;
 
       // find if app package already defined
-      var isNewApp = true;
+      isNewApp = true;
       _.forEach(node.value.elements, function (elem) {
-        if (elem.type === 'Literal' && elem.value === this.ngAppName) isNewApp = false;
+        if (elem.type === 'Literal' && elem.value === this.ngAppName) { isNewApp = false; }
       }.bind(this));
 
       if (isNewApp) {
         didAddNgAppToDependencies = true;
         hasChanges = true;
-        var str = "'"+ this.ngAppName+"'";
+        str = '\'' + this.ngAppName + '\'';
         if (node.value.elements.length === 0) {
           node.value.update(['[\n    ', str, '\n  ]'].join(''));
         } else {
-          var last = node.value.elements[node.value.elements.length-1];
-          last.update(last.source() + ',\n    '+ str);
+          last = node.value.elements[node.value.elements.length - 1];
+          last.update(last.source() + ',\n    ' + str);
         }
       }
     }
@@ -148,8 +152,8 @@ LeanerGenerator.prototype._wireClientMainJs = function _wireClientMainJs() {
   }
 
   if (hasChanges) {
-    if (didAddNgAppToPackages) this.logMessage('ngApp.didAddNgAppToPackages');
-    if (didAddNgAppToDependencies) this.logMessage('ngApp.didAddNgAppToDependencies');
+    if (didAddNgAppToPackages) { this.logMessage('ngApp.didAddNgAppToPackages'); }
+    if (didAddNgAppToDependencies) { this.logMessage('ngApp.didAddNgAppToDependencies'); }
   } else if (!hasChanges && foundKeys) {
     this.logMessage('ngApp.ngAppAlreadyExistsInPackages');
   } else {

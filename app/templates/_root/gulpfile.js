@@ -9,7 +9,7 @@ var gulp = require('gulp');
   'csslint',
   'jshint',
   'sass',
-  'copy-assets',
+  'copy-static-assets',
   'build-client',
   'build-css',
   'test'

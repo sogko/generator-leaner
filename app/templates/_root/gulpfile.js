@@ -8,16 +8,24 @@ var gulp = require('gulp');
   'nodemon',
   'csslint',
   'jshint',
+  'sass',
+  'copy-assets',
   'build-client',
+  'build-css',
   'test'
 
 ].forEach(function (name) {
     require('./gulp/tasks/' + name);
   });
 
+// Composite tasks
+
 gulp.task('lint', ['jshint', 'csslint']);
 gulp.task('lint:watch', ['jshint:watch', 'csslint:watch']);
-gulp.task('build', ['build-client']);
+
+gulp.task('build', ['lint', 'sass', 'copy-assets', 'build-client', 'build-css']);
+gulp.task('build:watch', ['lint:watch', 'sass:watch', 'copy-assets:watch', 'build-client:watch', 'build-css:watch']);
 gulp.task('build:production', ['build-client:production']);
+
 gulp.task('tdd', ['lint:watch', 'test:watch']);
-gulp.task('default', ['build', 'lint:watch', 'nodemon', 'browser-sync']);
+gulp.task('default', ['build', 'build:watch', 'nodemon', 'browser-sync']);

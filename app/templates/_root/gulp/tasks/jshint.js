@@ -21,7 +21,7 @@ gulp.task('jshint', function taskJSHint() {
 gulp.task('jshint:watch', function taskJSHint() {
   watch({
     glob: config.jshint.glob,
-    name: 'jshint'
+    name: 'jshint-changed'
   }, function (files) {
     return files
       .pipe(jshintTasks());

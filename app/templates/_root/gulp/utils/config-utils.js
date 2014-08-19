@@ -14,19 +14,32 @@ function parseClientBuildBundlesConfig(baseDir, opts) {
     var bundleOpts = _.cloneDeep(b);
     var req = [];
     var external = [];
+    var entries = [];
 
     if (!bundleOpts.name) { return; }
 
     bundleOpts.concat = (bundleOpts.concat !== false);
 
     // handle entries[]
-    if (bundleOpts.entries && !_.isArray(bundleOpts.entries)) { bundleOpts.entries = [bundleOpts.entries]; }
+    if (bundleOpts.entries && !_.isArray(bundleOpts.entries)) {
+      bundleOpts.entries = [bundleOpts.entries];
+    }
+    _.forEach(bundleOpts.entries, function (e) {
+      if (!e) { return; }
+      entries.push(path.join(baseDir, e));
+    });
 
     // handle require[]
     if (bundleOpts.require && _.isString(bundleOpts.require)) {
-      bundleOpts.require = { type: 'default', name: bundleOpts.require, location: path.join(baseDir, bundleOpts.require) };
+      bundleOpts.require = {
+        type: 'default',
+        name: bundleOpts.require,
+        location: path.join(baseDir, bundleOpts.require)
+      };
     }
-    if (bundleOpts.require && !_.isArray(bundleOpts.require)) { bundleOpts.require = [bundleOpts.require]; }
+    if (bundleOpts.require && !_.isArray(bundleOpts.require)) {
+      bundleOpts.require = [bundleOpts.require];
+    }
     _.forEach(bundleOpts.require, function (r) {
       if (!r.name) { return; }
 
@@ -55,7 +68,9 @@ function parseClientBuildBundlesConfig(baseDir, opts) {
     });
 
     // handle external[]
-    if (bundleOpts.external && !_.isArray(bundleOpts.external)) { bundleOpts.external = [bundleOpts.external]; }
+    if (bundleOpts.external && !_.isArray(bundleOpts.external)) {
+      bundleOpts.external = [bundleOpts.external];
+    }
     _.forEach(bundleOpts.external, function (ext) {
       if (_.isString(ext) && _.indexOf(bundleNames, ext) > -1) {
         ext = { type: 'bundle', name: ext };
@@ -68,7 +83,7 @@ function parseClientBuildBundlesConfig(baseDir, opts) {
 
     bundles.push({
       name: bundleOpts.name,
-      entries: bundleOpts.entries || null,
+      entries: entries,
       concat: bundleOpts.concat,
       require: req,
       external: external
@@ -83,7 +98,7 @@ function parseClientBuildBundlesConfig(baseDir, opts) {
     var external = [];
     _.forEach(b.external, function (ext) {
       if (ext.type === 'bundle' && bundleNames.indexOf(ext.name) > -1) {
-        _.forEach(bundles[bundleNames.indexOf(ext.name)].require, function (req) {
+        _.forEach(bundles[bundleNames.indexOf(ext.name)].require, function(req) {
           external.push(req.expose);
         });
       } else if (ext.type === 'module') {

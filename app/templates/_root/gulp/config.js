@@ -20,16 +20,12 @@ var files = {
   },
   client: {
     dist: ['client/dist/js/app.js'],
-    views: [
-      'client/apps/**/partials/**/*.html'
-    ],
     js: [
       'client/*.js',
       'client/src/apps/**/*.js',
-      'client/src/assets/js/lib/**/*.js',
+      'client/src/static/js/lib/**/*.js',
       '!client/dist/js/*.js'
     ],
-    vendor: ['client/assets/js/vendor/**/*.js'],
     css: [
       'client/dist/**/*.css'
     ]
@@ -59,8 +55,10 @@ var files = {
   },
   browserSyncFiles: function browserSyncFiles() {
     // preferably file that can be injected or does not require a build
-    return ['client/dist/all.css']
-      .concat(this.client.views)
+    return [
+      'client/dist/**/*.css',
+      'client/dist/**/*.html'
+    ]
       .concat(this.server.views);
   }
 };
@@ -120,13 +118,13 @@ module.exports = {
     midway: require('../tests/karma.midway.conf'),
     e2e: require('../tests/karma.e2e.conf')
   },
-  copyAssets: {
+  copyStaticAssets: {
     glob: [
-      'client/src/assets/**/*',
+      'client/src/static/**/*',
       'client/src/**/*.html',
       '!client/src/**/*.md',
       '!client/src/**/*.scss',
-      '!client/src/**/*.css' // would be handled by build-css
+      '!client/src/**/*.css' // would be handled by build-cssx
     ],
     dest: './client/dist'
   }

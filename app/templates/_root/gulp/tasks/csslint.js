@@ -12,11 +12,17 @@ var csslintTasks = lazypipe()
   .pipe(csslint, '.csslintrc')
   .pipe(csslint.reporter);
 
+/**
+ * Run .css files through csslint
+ */
 gulp.task('csslint', function taskCSSLint() {
   return gulp.src(config.csslint.glob)
     .pipe(csslintTasks());
 });
 
+/**
+ * Watch and run .css files through csslint
+ */
 gulp.task('csslint:watch', function taskCSSLintWatch() {
   watch({
     name: 'csslint-changed',

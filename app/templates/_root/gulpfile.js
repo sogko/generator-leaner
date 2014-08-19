@@ -23,9 +23,10 @@ var gulp = require('gulp');
 gulp.task('lint', ['jshint', 'csslint']);
 gulp.task('lint:watch', ['jshint:watch', 'csslint:watch']);
 
-gulp.task('build', ['lint', 'sass', 'copy-assets', 'build-client', 'build-css']);
-gulp.task('build:watch', ['lint:watch', 'sass:watch', 'copy-assets:watch', 'build-client:watch', 'build-css:watch']);
+gulp.task('build', ['lint', 'sass', 'copy-static-assets', 'build-client', 'build-css']);
+gulp.task('build:watch', ['lint:watch', 'sass:watch', 'copy-static-assets:watch', 'build-client:watch', 'build-css:watch']);
 gulp.task('build:production', ['build-client:production']);
 
 gulp.task('tdd', ['lint:watch', 'test:watch']);
 gulp.task('default', ['build', 'build:watch', 'nodemon', 'browser-sync']);
+

@@ -13,11 +13,17 @@ var jshintTasks = lazypipe()
   .pipe(jshint, '.jshintrc')
   .pipe(jshint.reporter, stylish);
 
+/**
+ * Watch and run .js files through jshint
+ */
 gulp.task('jshint', function taskJSHint() {
   return gulp.src(config.jshint.glob)
     .pipe(jshintTasks());
 });
 
+/**
+ * Watch and run .js files through jshint
+ */
 gulp.task('jshint:watch', function taskJSHint() {
   watch({
     glob: config.jshint.glob,

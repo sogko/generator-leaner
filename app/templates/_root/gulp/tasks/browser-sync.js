@@ -4,6 +4,9 @@ var gulp = require('gulp');
 var browserSync = require('browser-sync');
 var config = require('../config');
 
+/**
+ * Initializes browser-sync to set up a live-reload environment
+ */
 gulp.task('browser-sync', function taskBrowserSync() {
 
   // delay initializing browserSync to avoid race condition

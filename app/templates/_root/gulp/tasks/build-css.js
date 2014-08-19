@@ -8,10 +8,9 @@ var CleanCSS = require('clean-css');
 var map = require('vinyl-map');
 var config = require('../config');
 
-require('./sass');
-require('./copy-assets');
-
-
+/**
+ * Build minified + concatenated css using `clean-css`
+ */
 gulp.task('build-css', function buildCSSTask() {
   var minify = map(function (code) {
     code = code.toString();
@@ -28,7 +27,7 @@ gulp.task('build-css', function buildCSSTask() {
 });
 
 /**
- * Watch and re-build if there is any changes in css files in `src` folder
+ * Watch and re-build minified+concatenated css if there is any changes in css files
  */
 gulp.task('build-css:watch', function buildCSSTaskWatch() {
 

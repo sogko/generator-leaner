@@ -13,7 +13,6 @@ var buffer = require('vinyl-buffer');
 var transform = require('vinyl-transform');
 var browserify = require('browserify');
 var config = require('../config');
-var browserSync = require('browser-sync');
 
 function asyncTaskBuildClient(_config, done) {
 
@@ -120,28 +119,40 @@ function asyncTaskBuildClient(_config, done) {
   });
 }
 
+/**
+ * Default alias to build-client
+ */
 gulp.task('build-client', ['build-client:development']);
 
+/**
+ * Default alias to build-client:watch
+ */
 gulp.task('build-client:watch', ['build-client:development:watch']);
 
+/**
+ * Watch and re-build client bundles on changes in development environment
+ */
 gulp.task('build-client:development:watch', function () {
-
-  gulp.watch(config.buildClient.development.watch, ['build-client:development'], function (done) {
-    setTimeout(function reload() {
-      browserSync.reload({ stream: false });
-      done();
-    }, config.browserSync.reloadDelay);
-  });
+  gulp.watch(config.buildClient.development.watch, ['build-client:development']);
 });
 
+/**
+ * Build client bundles in development environment
+ */
 gulp.task('build-client:development', function (done) {
   asyncTaskBuildClient(config.buildClient.development, done);
 });
 
+/**
+ * Build client bundles in test environment
+ */
 gulp.task('build-client:test', function (done) {
   asyncTaskBuildClient(config.buildClient.test, done);
 });
 
+/**
+ * Build client bundles in production environment
+ */
 gulp.task('build-client:production', function (done) {
   asyncTaskBuildClient(config.buildClient.production, done);
 
